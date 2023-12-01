@@ -9,6 +9,8 @@ pyproject.toml 文件是用于构建 Python 发布包（例如，使用 setuptoo
 
 setup.py 文件则是用于构建 Python 发布包使用 setuptools 时的配置文件。
 
+.pyd 文件是 Windows 平台上用于扩展模块（C/C++编写的）的 Python 动态链接库（Dynamic Link Library）文件。它们是 Python 扩展模块的二进制文件，通常包含了编写的 Python 扩展模块的编译结果。这些扩展模块允许你通过在 Python 中调用它们的功能，与底层的C/C++代码进行交互。通常，.pyd 文件在 Windows 平台上用于替代 .dll（动态链接库）文件，以便与 Python 运行时更好地集成。
+
 ## 配置环境
 拉取子模块的依赖
 

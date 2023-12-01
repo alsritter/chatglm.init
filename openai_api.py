@@ -11,15 +11,13 @@ from pydantic import BaseModel, Field, computed_field
 from pydantic_settings import BaseSettings
 from sse_starlette.sse import EventSourceResponse
 
-import os
-print(os.environ.get('DGGML_CUBLAS'))
 
 logging.basicConfig(level=logging.INFO,
                     format=r"%(asctime)s - %(module)s - %(levelname)s - %(message)s")
 
 
 class Settings(BaseSettings):
-    model: str = ".\chatglm3-ggml\chatglm3-ggml-q4_0.bin"
+    model: str = ".\models\chatglm3\chatglm3-ggml-q4_0.bin"
     num_threads: int = 0
 
 
@@ -151,16 +149,17 @@ app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
     allow_credentials=True,
-    allow_methods=["*"], 
+    allow_methods=["*"],
     allow_headers=["*"]
 )
 lock = asyncio.Lock()
+
 
 @app.post("/v1/chat/completions")
 async def create_chat_completion(body: ChatCompletionRequest) -> ChatCompletionResponse:
     if not body.messages:
         raise HTTPException(status.HTTP_400_BAD_REQUEST, "empty messages")
-    
+
     logging.info(
         f'prompt: "{body.messages[-1].content}"')
 

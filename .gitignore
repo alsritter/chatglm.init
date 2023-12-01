@@ -19,7 +19,7 @@ build/
 
 # model
 *.bin
-
+*.pyd
 # clangd
 .cache/
 third_party

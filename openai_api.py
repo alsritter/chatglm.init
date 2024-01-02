@@ -182,11 +182,18 @@ async def create_chat_completion(body: ChatCompletionRequest) -> ChatCompletionR
 
     logging.info(
         f'sync response: "{output.content}"')
+    
+    # 如果返回的结果长度小于1024，可能会导致进程结束，参考
+    # https://github.com/li-plus/chatglm.cpp/issues/244
+    if body.max_tokens < 1024:
+        body.max_tokens = 1024
+
     prompt_tokens = len(pipeline.tokenizer.encode_messages(
         messages, max_context_length))
     completion_tokens = len(pipeline.tokenizer.encode(
         output.content, body.max_tokens))
 
+    logging.info("Returning from function")
     return ChatCompletionResponse(
         object="chat.completion",
         choices=[ChatCompletionResponseChoice(
